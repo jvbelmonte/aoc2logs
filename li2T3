@@ -1,0 +1,935 @@
+Script iniciado em Ter 23 Abr 2019 02:56:02 -03
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:16:1:l -cache:il2 none -cache:dl1 dl1:128:16:1:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:16:1:l -cache:il2 none -cache:dl1 dl1:128:16:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:56:05 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:16:1:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:16:1:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate          13911955.0000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   29281673 # total number of hits
+il1.misses                 12454192 # total number of misses
+il1.replacements           12454064 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.2984 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.2984 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   18374727 # total number of hits
+dl1.misses                  1561360 # total number of misses
+dl1.replacements            1561232 # total number of replacements
+dl1.writebacks               792565 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0783 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0783 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0398 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:32:1:l -cache:il2 none -cache:dl1 dl1:128:32:1:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:32:1:l -cache:il2 none -cache:dl1 dl1:128:32:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:56:33 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:32:1:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:32:1:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate          13911955.0000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   37739026 # total number of hits
+il1.misses                  3996839 # total number of misses
+il1.replacements            3996711 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0958 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0958 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19118867 # total number of hits
+dl1.misses                   817220 # total number of misses
+dl1.replacements             817092 # total number of replacements
+dl1.writebacks               368225 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0410 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0410 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0185 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:64:1:l -cache:il2 none -cache:dl1 dl1:128:64:1:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:64:1:l -cache:il2 none -cache:dl1 dl1:128:64:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:56:43 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:64:1:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:64:1:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate          13911955.0000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   40473994 # total number of hits
+il1.misses                  1261871 # total number of misses
+il1.replacements            1261743 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0302 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0302 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19523986 # total number of hits
+dl1.misses                   412101 # total number of misses
+dl1.replacements             411973 # total number of replacements
+dl1.writebacks               170106 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0207 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0207 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0085 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:128:1:l -cache:il2 none -cache:dl1 dl1:128:128:1:l -cache:dl2  none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:128:1:l -cache:il2 none -cache:dl1 dl1:128:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:56:50 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:128:1:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:128:1:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  2 # total simulation time in seconds
+sim_inst_rate          20867932.5000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   41440703 # total number of hits
+il1.misses                   295162 # total number of misses
+il1.replacements             295034 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0071 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0071 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19766622 # total number of hits
+dl1.misses                   169465 # total number of misses
+dl1.replacements             169337 # total number of replacements
+dl1.writebacks                70589 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0085 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0085 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0035 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:16:2:l -cache:il2 none -cache:dl1 dl1:128:16:2:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:16:2:l -cache:il2 none -cache:dl1 dl1:128:16:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:56:58 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:16:2:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:16:2:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate          13911955.0000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   35295621 # total number of hits
+il1.misses                  6440244 # total number of misses
+il1.replacements            6439988 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.1543 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.1543 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19273831 # total number of hits
+dl1.misses                   662256 # total number of misses
+dl1.replacements             662000 # total number of replacements
+dl1.writebacks               393326 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0332 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0332 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0197 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:32:2:l -cache:il2 none -cache:dl1 dl1:128:32:2:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:32:2:l -cache:il2 none -cache:dl1 dl1:128:32:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:57:09 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:32:2:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:32:2:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  3 # total simulation time in seconds
+sim_inst_rate          13911955.0000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   40512472 # total number of hits
+il1.misses                  1223393 # total number of misses
+il1.replacements            1223137 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0293 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0293 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19660534 # total number of hits
+dl1.misses                   275553 # total number of misses
+dl1.replacements             275297 # total number of replacements
+dl1.writebacks               177063 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0138 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0138 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0089 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:64:2:l -cache:il2 none -cache:dl1 dl1:128:64:2:l -cache:dl2 n one -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:64:2:l -cache:il2 none -cache:dl1 dl1:128:64:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:57:16 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:64:2:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:64:2:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  2 # total simulation time in seconds
+sim_inst_rate          20867932.5000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   41530905 # total number of hits
+il1.misses                   204960 # total number of misses
+il1.replacements             204704 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0049 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0049 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19825537 # total number of hits
+dl1.misses                   110550 # total number of misses
+dl1.replacements             110294 # total number of replacements
+dl1.writebacks                82346 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0055 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0055 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0041 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ ./sim-cache -cache:il 1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2  none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+sim-cache: SimpleScalar/PISA Tool Set version 3.0 of August, 2003.
+Copyright (c) 1994-2003 by Todd M. Austin, Ph.D. and SimpleScalar, LLC.
+All Rights Reserved. This version of SimpleScalar is licensed for academic
+non-commercial use.  No portion of this work may be used by any commercial
+entity, or for any commercial purpose, without the prior written permission
+of SimpleScalar, LLC (info@simplescalar.com).
+
+sim: command line: ./sim-cache -cache:il1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+sim: simulation started @ Tue Apr 23 02:57:22 2019, options follow:
+
+sim-cache: This simulator implements a functional cache simulator.  Cache
+statistics are generated for a user-selected cache and TLB configuration,
+which may include up to two levels of instruction and data cache (with any
+levels unified), and one level of instruction and data TLBs.  No timing
+information is generated.
+
+# -config                     # load configuration from a file
+# -dumpconfig                 # dump configuration to a file
+# -h                    false # print help message    
+# -v                    false # verbose operation     
+# -d                    false # enable debug message  
+# -i                    false # start in Dlite debugger
+-seed                       1 # random number generator seed (0 for timer seed)
+# -q                    false # initialize and terminate immediately
+# -chkpt               <null> # restore EIO trace execution from <fname>
+# -redir:sim           <null> # redirect simulator output to file (non-interactive only)
+# -redir:prog          <null> # redirect simulated program output to file
+-nice                       0 # simulator scheduling priority
+-max:inst                   0 # maximum number of inst's to execute
+-cache:dl1       dl1:128:128:2:l # l1 data cache config, i.e., {<config>|none}
+-cache:dl2               none # l2 data cache config, i.e., {<config>|none}
+-cache:il1       il1:128:128:2:l # l1 inst cache config, i.e., {<config>|dl1|dl2|none}
+-cache:il2               none # l2 instruction cache config, i.e., {<config>|dl2|none}
+-tlb:itlb                none # instruction TLB config, i.e., {<config>|none}
+-tlb:dtlb                none # data TLB config, i.e., {<config>|none}
+-flush                  false # flush caches on system calls
+-cache:icompress        false # convert 64-bit inst addresses to 32-bit inst equivalents
+# -pcstat              <null> # profile stat(s) against text addr's (mult uses ok)
+
+  The cache config parameter <config> has the following format:
+
+    <name>:<nsets>:<bsize>:<assoc>:<repl>
+
+    <name>   - name of the cache being defined
+    <nsets>  - number of sets in the cache
+    <bsize>  - block size of the cache
+    <assoc>  - associativity of the cache
+    <repl>   - block replacement strategy, 'l'-LRU, 'f'-FIFO, 'r'-random
+
+    Examples:   -cache:dl1 dl1:4096:32:1:l
+                -dtlb dtlb:128:4096:32:r
+
+  Cache levels can be unified by pointing a level of the instruction cache
+  hierarchy at the data cache hiearchy using the "dl1" and "dl2" cache
+  configuration arguments.  Most sensible combinations are supported, e.g.,
+
+    A unified l2 cache (il2 is pointed at dl2):
+      -cache:il1 il1:128:64:1:l -cache:il2 dl2
+      -cache:dl1 dl1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+    Or, a fully unified cache hierarchy (il1 pointed at dl1):
+      -cache:il1 dl1
+      -cache:dl1 ul1:256:32:1:l -cache:dl2 ul2:1024:64:2:l
+
+
+
+sim: ** starting functional simulation w/ caches **
+XLISP version 1.6, Copyright (c) 1985, by David Betz
+; loading "queen6.lsp"
+((1 2) (2 4) (3 6) (4 1) (5 3) (6 5))
+
+((1 3) (2 6) (3 2) (4 5) (5 1) (6 4))
+((1 4) (2 1) (3 5) (4 2) (5 6) (6 3))
+((1 5) (2 3) (3 1) (4 6) (5 4) (6 2))
+
+sim: ** simulation statistics **
+sim_num_insn               41735865 # total number of instructions executed
+sim_num_refs               19908981 # total number of loads and stores executed
+sim_elapsed_time                  2 # total simulation time in seconds
+sim_inst_rate          20867932.5000 # simulation speed (in insts/sec)
+il1.accesses               41735865 # total number of accesses
+il1.hits                   41710266 # total number of hits
+il1.misses                    25599 # total number of misses
+il1.replacements              25343 # total number of replacements
+il1.writebacks                    0 # total number of writebacks
+il1.invalidations                 0 # total number of invalidations
+il1.miss_rate                0.0006 # miss rate (i.e., misses/ref)
+il1.repl_rate                0.0006 # replacement rate (i.e., repls/ref)
+il1.wb_rate                  0.0000 # writeback rate (i.e., wrbks/ref)
+il1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+dl1.accesses               19936087 # total number of accesses
+dl1.hits                   19906232 # total number of hits
+dl1.misses                    29855 # total number of misses
+dl1.replacements              29599 # total number of replacements
+dl1.writebacks                25044 # total number of writebacks
+dl1.invalidations                 0 # total number of invalidations
+dl1.miss_rate                0.0015 # miss rate (i.e., misses/ref)
+dl1.repl_rate                0.0015 # replacement rate (i.e., repls/ref)
+dl1.wb_rate                  0.0013 # writeback rate (i.e., wrbks/ref)
+dl1.inv_rate                 0.0000 # invalidation rate (i.e., invs/ref)
+ld_text_base             0x00400000 # program text (code) segment base
+ld_text_size                 180640 # program text (code) size in bytes
+ld_data_base             0x10000000 # program initialized data segment base
+ld_data_size                  20788 # program init'ed `.data' and uninit'ed `.bss' size in bytes
+ld_stack_base            0x7fffc000 # program stack segment base (highest address in stack)
+ld_stack_size                 16384 # program initial stack size
+ld_prog_entry            0x00400140 # program entry point (initial PC)
+ld_environ_base          0x7fff8000 # program environment base address address
+ld_target_big_endian              0 # target executable endian-ness, non-zero if big endian
+mem.page_count                   73 # total number of pages allocated
+mem.page_mem                   292k # total size of memory pages allocated
+mem.ptab_misses                  73 # total first level page table misses
+mem.ptab_accesses         207943554 # total page table accesses
+mem.ptab_miss_rate           0.0000 # first level page table miss rate
+
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ 
+]0;joao@kingsize: ~/Documentos/AOC2/simplesim-3.0/li[01;32mjoao@kingsize[00m:[01;34m~/Documentos/AOC2/simplesim-3.0/li[00m$ EXIT[K[K[K[Kexit
+exit
+
+Script concluído em Ter 23 Abr 2019 02:57:29 -03

@@ -1,0 +1,193 @@
+A configuração de cache (<config>) é formatada com os seguintes parâmetros:
+<name>:<nsets>:<bsize>:<assoc>:<repl>
+
+• -cache:dl1 <config> configura uma cache de dados L1;
+• -cache:dl2 <config> configura uma cache de dados L2;
+• -cache:il1 <config> configura uma cache de instruções L1;
+• -cache:il2 <config> configura uma cache de instruções L2;
+• -tlb:dtlb <config> configura o TLB de dados;
+• -tlb:itlb <config> configura o TLB de instruções.
+
+Onde cada um destes campos possui o seguinte significado:
+• <name> nome da cache (deve ser único);
+• <nsets> número de conjuntos na cache;
+• <bsize> tamanho do bloco em bytes;
+• <assoc> associatividade;
+• <repl> política de substituição (l | f | r), onde l = LRU, f = FIFO, r = RANDON.
+
+
+ LI_2:
+ sim-cache -config <config file> li.ss queen6.lsp
+
+  IJPEG_2:
+ sim-cache -config <config file> ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+
+***************************  TAREFA 1 ***************************
+
+
+	#########################  LI_2  #########################
+
+	--MAPEAMENTO DIRETO--
+		@@@@@@@@@@@@@ conjuntos = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:64:128:1:l -cache:il2 none -cache:dl1 dl1:64:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	 	@@@@@@@@@@@@@ conjuntos = 256 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:256:128:1:l -cache:il2 none -cache:dl1 dl1:256:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp	
+
+
+	--CONJUNTO ASSOCIATIVO  2 VIAS--
+		@@@@@@@@@@@@@ conjuntos = 32 @@@@@@@@@@@@@
+			 ./sim-cache -cache:il1 il1:32:128:2:l -cache:il2 none -cache:dl1 dl1:32:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+		@@@@@@@@@@@@@ conjuntos = 128 @@@@@@@@@@@@@
+			 ./sim-cache -cache:il1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp	 
+
+
+	--CONJUNTO ASSOCIATIVO  4 VIAS--
+		@@@@@@@@@@@@@ conjuntos = 16 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:16:128:4:l -cache:il2 none -cache:dl1 dl1:16:128:4:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	 	@@@@@@@@@@@@@ conjuntos = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:64:128:4:l -cache:il2 none -cache:dl1 dl1:64:128:4:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp	
+
+
+	--TOTALMENTE ASSOCIATIVO--
+	 	@@@@@@@@@@@@@ conjuntos = 1 // associatividade = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:1:128:64:l -cache:il2 none -cache:dl1 dl1:1:128:64:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+		@@@@@@@@@@@@@ conjuntos = 1 // associatividade = 256 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:1:128:256:l -cache:il2 none -cache:dl1 dl1:1:128:256:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+
+	 #########################  IJPEG_2  #########################
+
+	 --MAPEAMENTO DIRETO--
+		@@@@@@@@@@@@@ conjuntos = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:64:128:1:l -cache:il2 none -cache:dl1 dl1:64:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	 	@@@@@@@@@@@@@ conjuntos = 256 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:256:128:1:l -cache:il2 none -cache:dl1 dl1:256:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+
+	--CONJUNTO ASSOCIATIVO  2 VIAS--
+		@@@@@@@@@@@@@ conjuntos = 32 @@@@@@@@@@@@@
+			 ./sim-cache -cache:il1 il1:32:128:2:l -cache:il2 none -cache:dl1 dl1:32:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+		@@@@@@@@@@@@@ conjuntos = 128 @@@@@@@@@@@@@
+			 ./sim-cache -cache:il1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcompp	
+
+
+	--CONJUNTO ASSOCIATIVO  4 VIAS--
+		@@@@@@@@@@@@@ conjuntos = 16 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:16:128:4:l -cache:il2 none -cache:dl1 dl1:16:128:4:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp	
+
+	 	@@@@@@@@@@@@@ conjuntos = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:64:128:4:l -cache:il2 none -cache:dl1 dl1:64:128:4:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp	
+
+
+	--TOTALMENTE ASSOCIATIVO--
+	 	@@@@@@@@@@@@@ conjuntos = 1 // associatividade = 64 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:1:128:64:l -cache:il2 none -cache:dl1 dl1:1:128:64:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+		@@@@@@@@@@@@@ conjuntos = 1 // associatividade = 256 @@@@@@@@@@@@@
+	 		./sim-cache -cache:il1 il1:1:128:256:l -cache:il2 none -cache:dl1 dl1:1:128:256:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+************************************************************************
+
+*************************** TAREFA 2 ***************************
+
+	#########################  LI_2  #########################
+
+		@@@@@@@@@@@@ Totalmente Associativo + LRU @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:l -cache:il2 none -cache:dl1 dl1:1:32:128:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp 
+
+		@@@@@@@@@@@@ Totalmente Associativo + FIFO @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:f -cache:il2 none -cache:dl1 dl1:1:32:128:f -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+		@@@@@@@@@@@@ Totalmente Associativo + RANDOM @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:r -cache:il2 none -cache:dl1 dl1:1:32:128:r -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	
+	#########################  IJPEG2  #########################
+
+		@@@@@@@@@@@@ Totalmente Associativo + LRU @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:l -cache:il2 none -cache:dl1 dl1:1:32:128:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+		@@@@@@@@@@@@ Totalmente Associativo + FIFO @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:f -cache:il2 none -cache:dl1 dl1:1:32:128:f -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+		@@@@@@@@@@@@ Totalmente Associativo + RANDOM @@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:1:32:128:r -cache:il2 none -cache:dl1 dl1:1:32:128:r -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp		
+
+
+************************************************************************
+
+***************************  TAREFA 3 ***************************
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&    LI2    &&&&&&&&&&&&&&&&&&&&&&&&&&& 	
+
+	-------------------- MAPEAMENTO DIRETO --------------------
+	
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 16 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:16:1:l -cache:il2 none -cache:dl1 dl1:128:16:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp	
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 32 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:32:1:l -cache:il2 none -cache:dl1 dl1:128:32:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 64 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:64:1:l -cache:il2 none -cache:dl1 dl1:128:64:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 128 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:128:1:l -cache:il2 none -cache:dl1 dl1:128:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+
+	------------------------ 2 VIAS ------------------------
+	
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 16 @@@@@@@@@@@@@@@@	
+			./sim-cache -cache:il1 il1:128:16:2:l -cache:il2 none -cache:dl1 dl1:128:16:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp	
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 32 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:32:2:l -cache:il2 none -cache:dl1 dl1:128:32:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 64 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:64:2:l -cache:il2 none -cache:dl1 dl1:128:64:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 128 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none li.ss queen6.lsp
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&    IJPEG2    &&&&&&&&&&&&&&&&&&&&&&&&&&& 	
+
+	-------------------- MAPEAMENTO DIRETO --------------------
+	
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 16 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:16:1:l -cache:il2 none -cache:dl1 dl1:128:16:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 32 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:32:1:l -cache:il2 none -cache:dl1 dl1:128:32:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 64 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:64:1:l -cache:il2 none -cache:dl1 dl1:128:64:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 128 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:128:1:l -cache:il2 none -cache:dl1 dl1:128:128:1:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+
+	------------------------ 2 VIAS ------------------------
+	
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 16 @@@@@@@@@@@@@@@@	
+			./sim-cache -cache:il1 il1:128:16:2:l -cache:il2 none -cache:dl1 dl1:128:16:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 32 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:32:2:l -cache:il2 none -cache:dl1 dl1:128:32:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 64 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:64:2:l -cache:il2 none -cache:dl1 dl1:128:64:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+	@@@@@@@@@@@@@@@@ conjuntos - 128 // tamanho - 128 @@@@@@@@@@@@@@@@
+			./sim-cache -cache:il1 il1:128:128:2:l -cache:il2 none -cache:dl1 dl1:128:128:2:l -cache:dl2 none -tlb:itlb none -tlb:dtlb none ijpeg.ss -image_file specmun.ppm -compression.quality 90 -compression.optimize_coding 0 -compression.smoothing_factor 90 -difference.image 1 -difference.x_stride 10 -difference.y_stride 10 -verbose 1 -GO.findoptcomp
+
+
+************************************************************************
